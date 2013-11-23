@@ -1,0 +1,29 @@
+@(product: Product)
+
+@main("Product Display") {
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-offset-4">
+            <div class="well well-sm">
+            <dl class="dl-horizontal">
+                <dt>Title</dt>
+                <dd>@product.title</dd>
+
+                <dt>Cost</dt>
+                <dd>@product.pricing.cost</dd>
+
+                <dt>Price</dt>
+                <dd>@product.pricing.price</dd>
+
+                <dt>Promo</dt>
+                <dd>@product.pricing.promo_price</dd>
+
+                <dt>Savings</dt>
+                <dd>@product.pricing.savings</dd>
+
+            </dl>
+            </div>
+        </div>
+    </div>
+</div>
+}
