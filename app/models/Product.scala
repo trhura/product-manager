@@ -39,14 +39,15 @@ case class Pricing
 case class Product
 (
   @Key("_id") _id: org.bson.types.ObjectId,
-  id: Int,
+  id: Long,
   title: String,
   pricing: Pricing
 )
 
 object Product extends ModelCompanion[Product, ObjectId] {
-  val dao = new SalatDAO[Product, ObjectId](collection = mongoCollection("products")) {}
+  var collection = mongoCollection("products")
+  val dao = new SalatDAO[Product, ObjectId](collection ) {}
 
-  def findOneById(id: Long): Option[Product] = dao.findOne(MongoDBObject("id" -> id))
-  //def findByTitle(title: String) = dao.findOne(MongoDBObject("title" -> title))
+  def byId(id: Long): Option[Product] = dao.findOne(MongoDBObject("id" -> id))
+  def all(): List[Product] = collection.toList.map(grater[Product].asObject(_))
 }
