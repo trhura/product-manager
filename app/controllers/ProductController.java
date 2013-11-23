@@ -1,12 +1,11 @@
 package controllers;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.*;
-
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Pricing;
 import models.Product;
-import play.Logger;
 import play.mvc.*;
 import scala.Option;
 import scala.collection.Iterator;
@@ -21,30 +20,25 @@ import scala.collection.immutable.List;
  */
 public class ProductController extends Controller {
 
+    final static Option<Product> None = scala.Option.apply(null);
+    final static JsonNodeFactory factory = JsonNodeFactory.instance;
+
+    /* Index page*/
     public static Result index () {
         return ok(views.html.index.render());
     }
 
-    final static Option<Product> None = scala.Option.apply(null);
-    final static JsonNodeFactory factory = JsonNodeFactory.instance;
-
+    /* GET API: return Json by product id */
     public static Result show(Long id) {
         Option<Product> productOption = Product.byId(id);
         if (productOption == None) return notFound();
         Product product = productOption.get();
 
-        if (request().accepts(("application/json"))) {
-            JsonNode json = getJsonFromProduct(product);
-            return ok(json);
-        }
-
-        if (request().accepts("text/html")) {
-            return ok(views.html.product_show.render(product));
-        }
-
-        return notFound();
+        JsonNode json = getJsonFromProduct(product);
+        return ok(json);
     }
 
+    /* POST API: update Product */
     @BodyParser.Of(BodyParser.Json.class)
     public static Result update(Long id) {
         Option<Product> productOption = Product.byId(id);
@@ -59,6 +53,7 @@ public class ProductController extends Controller {
         return ok();
     }
 
+    /* Helper function */
     private static void updateProduct(Product product, String title, Double price) {
         Pricing pricing = new Pricing(
                 product.pricing().cost(),
@@ -78,6 +73,7 @@ public class ProductController extends Controller {
         Product.update (updatedProduct);
     }
 
+    /* API: get a list of possible completions for product id */
     public static Result completeId(Long id) {
         ArrayNode completions = factory.arrayNode();
         List<Product> products = Product.all();
@@ -102,6 +98,7 @@ public class ProductController extends Controller {
         return ok(completions);
     }
 
+    /* Helper function */
     private static JsonNode getJsonFromProduct(Product product) {
         ObjectNode pricingNode = factory.objectNode();
         pricingNode.put ("cost", factory.numberNode(product.pricing().cost()));
