@@ -1,7 +1,17 @@
-@(message: String)
+@main("Home Page") {
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Manage Products</h3></div>
 
-@main("Welcome to Play") {
+                <div class="well well-sm">
+                    <input type="text" class="form-control"
+                           id="product_id" placeholder="Enter Product Id...">
+                </div>
+            </div>
 
-    @play20.welcome(message, style = "Java")
-
+        </div>
+    </div>
+</div>
 }
