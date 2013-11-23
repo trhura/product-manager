@@ -1,4 +1,8 @@
-@main("Home Page") {
+@scripts = {
+<script type="text/javascript" src="@routes.Assets.at("javascripts/app.js")">alert("hello !");</script>
+}
+
+@main("Home Page", scripts) {
 <div class="container">
     <div class="row">
         <div class="col-lg-4 col-offset-4">
@@ -6,7 +10,7 @@
                 <div class="panel-heading"><h3>Manage Products</h3></div>
 
                 <div class="well well-sm">
-                    <input type="text" class="form-control"
+                    <input type="number" class="form-control"
                            id="product_id" placeholder="Enter Product Id...">
                 </div>
 
@@ -22,14 +26,14 @@
                         <div class="form-group">
                             <label for="title" class="col-sm-2 control-label">Title</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="title" />
+                                <input type="text" class="form-control save-on-change" id="title" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="price" class="col-sm-2 control-label">Price</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="price" />
+                                <input type="number" class="form-control save-on-change" id="price" />
                             </div>
                         </div>
 

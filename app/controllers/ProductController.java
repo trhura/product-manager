@@ -29,15 +29,15 @@ public class ProductController extends Controller {
     public static Result show(Long id) {
         Option<Product> productOption = Product.findOneById(id);
         if (productOption == None) return notFound();
-
         Product product = productOption.get();
-        if (request().accepts("text/html")) {
-            return ok(views.html.product_show.render(product));
-        }
 
         if (request().accepts(("application/json"))) {
             JsonNode json = getJson(product);
             return ok(json);
+        }
+
+        if (request().accepts("text/html")) {
+            return ok(views.html.product_show.render(product));
         }
 
         return notFound();
