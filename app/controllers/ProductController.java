@@ -71,7 +71,7 @@ public class ProductController extends Controller {
         Product updatedProduct = new Product(
                 product._id(),
                 product.id(),
-                product.title(),
+                title,
                 pricing
         );
 

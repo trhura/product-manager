@@ -20,6 +20,57 @@ $(document).ready(function(){
         limit: 10
     });
 
+    $('.save-on-change').keypress(function(e) {
+        if(e.which == 13) {
+            id = $('#id').val();
+            title = $('#title').val();
+            price = $('#price').val();
+            cost = $('#cost').val();
+
+            if (!id) {
+                console.warn("Empty Id.");
+                return;
+            }
+
+            // Title starts with letter
+            if (! /^[a-z].*/i.test(title)) {
+                alert("Title must start with a letter.");
+                return;
+            }
+
+            if(!$.isNumeric(price)) {
+                alert("Price must be a numeric.");
+                return;
+            }
+
+            price = parseFloat(price);
+            cost = parseFloat(cost);
+
+            if(price <= cost)  {
+                alert("Price must be larger than cost.");
+                return;
+            }
+
+            product = {
+                "title": title,
+                "pricing": {
+                    "price": price
+                }
+            };
+
+            $.ajax({
+                type: "POST",
+                url: 'product/' + id,
+                data: JSON.stringify(product),
+                contentType: "application/json; charset=utf-8",
+                success: function() {
+                    console.log("Product updated successfully.");
+                    alert("Product updated successfully.");
+                }
+            });
+        }
+    });
+
     $('#product_id').keypress(function(e) {
         if(e.which == 13) {
             var id = $('#product_id').val();
