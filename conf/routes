@@ -5,6 +5,8 @@
 # Home page
 GET     /                               controllers.ProductController.index()
 GET     /product/:id                    controllers.ProductController.show(id: Long)
+POST    /product/:id                    controllers.ProductController.update(id: Long)
+
 GET     /product/helper/complete/:id    controllers.ProductController.completeId(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path

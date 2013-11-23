@@ -50,4 +50,5 @@ object Product extends ModelCompanion[Product, ObjectId] {
 
   def byId(id: Long): Option[Product] = dao.findOne(MongoDBObject("id" -> id))
   def all(): List[Product] = collection.toList.map(grater[Product].asObject(_))
+  def update(product: Product) = dao.save(product)
 }
